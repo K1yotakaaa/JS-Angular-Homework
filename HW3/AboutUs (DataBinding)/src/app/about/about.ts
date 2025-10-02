@@ -12,10 +12,9 @@ import { CommonModule } from '@angular/common';
 export class About {
   about: Contact[] = contacts;
 
-  searchText: string = ''; // 🔹 Two-way binding property
-  selectedContact?: Contact; // 🔹 For event binding result
+  searchText: string = ''; 
+  selectedContact?: Contact; 
 
-  // 🔹 Method for filtering
   filteredContacts() {
     if (!this.searchText) return this.about;
     return this.about.filter((c) =>
@@ -23,12 +22,10 @@ export class About {
     );
   }
 
-  // 🔹 Method for event binding (on card click)
   selectContact(contact: Contact) {
     this.selectedContact = contact;
   }
 
-  // 🔹 Clear input (event binding)
   clearSearch() {
     this.searchText = '';
     this.selectedContact = undefined;

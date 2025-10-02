@@ -4,13 +4,11 @@
     Welcome to my platform! I hope you enjoy my work and I hope I get maximum points for this homework assignment :)
   </p>
 
-  <!-- 🔹 Two-way binding: user can type search -->
   <input type="text"
          placeholder="Search contact..."
          [(ngModel)]="searchText"
          class="search-box" />
 
-  <!-- 🔹 Property binding: disable button if no text -->
   <button [disabled]="!searchText"
           (click)="clearSearch()">
     Clear Search
@@ -19,7 +17,7 @@
   <div class="contacts-grid">
     @for (contact of filteredContacts(); track contact) {
       <div class="contact-card"
-           (click)="selectContact(contact)"> <!-- 🔹 Event binding -->
+           (click)="selectContact(contact)"> 
         <div class="icon">{{ contact.icon }}</div>
         <h2>{{ contact.name }}</h2>
         <p class="role">{{ contact.role }}</p>
@@ -29,10 +27,9 @@
     }
   </div>
 
-  <!-- 🔹 Interpolation + Property binding -->
   <div *ngIf="selectedContact" class="selected-contact">
     <h2>You selected: {{ selectedContact.name }}</h2>
-    <input [(ngModel)]="selectedContact.phone" /> <!-- Two-way: edit phone -->
+    <input [(ngModel)]="selectedContact.phone" /> 
     <p>Updated Phone: <span [innerText]="selectedContact.phone"></span></p>
   </div>
 </div>
