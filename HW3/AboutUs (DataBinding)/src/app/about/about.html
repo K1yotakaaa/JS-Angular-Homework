@@ -1,0 +1,38 @@
+<div class="about-container">
+  <h1>About Us</h1>
+  <p class="intro">
+    Welcome to my platform! I hope you enjoy my work and I hope I get maximum points for this homework assignment :)
+  </p>
+
+  <!-- 🔹 Two-way binding: user can type search -->
+  <input type="text"
+         placeholder="Search contact..."
+         [(ngModel)]="searchText"
+         class="search-box" />
+
+  <!-- 🔹 Property binding: disable button if no text -->
+  <button [disabled]="!searchText"
+          (click)="clearSearch()">
+    Clear Search
+  </button>
+
+  <div class="contacts-grid">
+    @for (contact of filteredContacts(); track contact) {
+      <div class="contact-card"
+           (click)="selectContact(contact)"> <!-- 🔹 Event binding -->
+        <div class="icon">{{ contact.icon }}</div>
+        <h2>{{ contact.name }}</h2>
+        <p class="role">{{ contact.role }}</p>
+        <p class="info">📧 {{ contact.email }}</p>
+        <p class="info">📞 {{ contact.phone }}</p>
+      </div>
+    }
+  </div>
+
+  <!-- 🔹 Interpolation + Property binding -->
+  <div *ngIf="selectedContact" class="selected-contact">
+    <h2>You selected: {{ selectedContact.name }}</h2>
+    <input [(ngModel)]="selectedContact.phone" /> <!-- Two-way: edit phone -->
+    <p>Updated Phone: <span [innerText]="selectedContact.phone"></span></p>
+  </div>
+</div>
