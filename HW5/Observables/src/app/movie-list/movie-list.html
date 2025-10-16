@@ -1,0 +1,52 @@
+<div class="head">
+  <div class="elements">
+    <a [routerLink]="['/']">Home</a>
+    <a href="#">Viewed</a>
+    <a [routerLink]="['/about-us']">About-Us</a>
+    <a [routerLink]="['/movies']">Movies</a>
+    <a [routerLink]="['/animes']">Anime</a>
+  </div>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="movieSearch"
+      name="movieSearch"
+      placeholder="Search"
+      (input)="onSearchChange($event.target.value)"
+      autocomplete="off"
+    />
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">Loading movies...</div>
+
+<div *ngIf="!loading && movies.length > 0" class="movies-container">
+  <div *ngFor="let m of movies" class="movie-cards">
+    <div class="img-wrapper">
+      <img
+        [src]="m.imgUrl"
+        [alt]="m.name"
+        [title]="m.name"
+      />
+    </div>
+
+    <div class="name-info">
+      <span id="name">
+        <a [routerLink]="['/details', m.id]">{{ m.name }}</a>
+      </span>
+    </div>
+
+    <div class="duration-info">
+      <span id="duration">
+        Duration: {{ m.duration }} {{ m.check_duration }}
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- No results message -->
+<div *ngIf="!loading && movies.length === 0" class="no-data">
+  No movies found.
+</div>
