@@ -1,0 +1,213 @@
+<div class="movie-details-wrapper" *ngIf="!loading && !notFound && movie">
+  <button class="back-btn" (click)="goBack()">
+    <span class="back-icon">←</span>
+    Back to List
+  </button>
+
+  <div class="movie-container">
+    <div class="poster-section">
+      <div class="poster">
+        <img [src]="movie.imgUrl" [alt]="movie.name" />
+        <div class="poster-overlay">
+          <div class="rating-badge">
+            <span class="rating-star">★</span>
+            {{ movie.rating || 'N/A' }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="quick-actions">
+        <button class="action-btn watch-later">
+          <span class="action-icon">⏱</span>
+          Watch Later
+        </button>
+        <button class="action-btn share">
+          <span class="action-icon">↗</span>
+          Share
+        </button>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="info-header">
+        <div class="title-section">
+          <h1 class="movie-title">{{ movie.name }}</h1>
+          <div class="release-year">{{ movie.release }}</div>
+        </div>
+        
+        <div class="movie-meta">
+          <span class="meta-tag duration">
+            <span class="meta-icon">⏱</span>
+            {{ movie.duration }} {{ movie.check_duration }}
+          </span>
+          <span class="meta-tag genre">
+            <span class="meta-icon">🎭</span>
+            Action, Adventure, Fantasy
+          </span>
+          <span class="meta-tag rating">
+            <span class="meta-icon">★</span>
+            PG-13
+          </span>
+        </div>
+      </div>
+
+      <div class="info-content">
+        <div class="description-section">
+          <h2 class="section-title">Synopsis</h2>
+          <p class="description">{{ movie.description }}</p>
+        </div>
+        
+        <div class="details-grid">
+          <div class="detail-column">
+            <div class="detail-item">
+              <span class="detail-label">Director</span>
+              <span class="detail-value">{{ movie.director }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Release Date</span>
+              <span class="detail-value">{{ movie.release }}</span>
+            </div>
+          </div>
+          
+          <div class="detail-column">
+            <div class="detail-item">
+              <span class="detail-label">Language</span>
+              <span class="detail-value">English, Japanese</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Country</span>
+              <span class="detail-value">{{ movie.country }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stats-section">
+          <h2 class="section-title">Statistics</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value">8.7/10</div>
+              <div class="stat-label">IMDb Rating</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">94%</div>
+              <div class="stat-label">Rotten Tomatoes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">4.5M</div>
+              <div class="stat-label">Views</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">#12</div>
+              <div class="stat-label">Trending</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tags-section">
+          <h2 class="section-title">Tags</h2>
+          <div class="tags-container">
+            <span class="tag">Anime</span>
+            <span class="tag">Fantasy</span>
+            <span class="tag">Adventure</span>
+            <span class="tag">Action</span>
+            <span class="tag">Coming of Age</span>
+            <span class="tag">Award Winning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-watch">
+          <span class="btn-icon">▶</span>
+          Watch Now
+        </button>
+        <button class="btn-favorite">
+          <span class="btn-icon">❤</span>
+          Add to Favorites
+        </button>
+        <button class="btn-trailer">
+          <span class="btn-icon">🎬</span>
+          Watch Trailer
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="additional-sections">
+    <div class="section similar-movies">
+      <h2 class="section-title">Similar Movies</h2>
+      <div class="movies-scroll">
+        <div class="movie-card" *ngFor="let similarMovie of similarMovies">
+          <img [src]="similarMovie.imgUrl" [alt]="similarMovie.name" class="movie-card-poster">
+          <div class="movie-card-info">
+            <h3 class="movie-card-title">{{ similarMovie.name }}</h3>
+            <div class="movie-card-rating">
+              <span class="rating-star">★</span> {{ similarMovie.rating }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section reviews-section">
+      <h2 class="section-title">User Reviews</h2>
+      <div class="reviews-container">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">JD</div>
+            <div class="reviewer-info">
+              <div class="reviewer-name">John Doe</div>
+              <div class="review-rating">
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">This movie exceeded all my expectations! The animation was breathtaking and the story was emotionally powerful.</p>
+          <div class="review-date">Posted on March 20, 2024</div>
+        </div>
+        
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">AS</div>
+            <div class="reviewer-info">
+              <div class="reviewer-name">Alice Smith</div>
+              <div class="review-rating">
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">A masterpiece of modern animation. The characters were well-developed and the world-building was incredible.</p>
+          <div class="review-date">Posted on March 18, 2024</div>
+        </div>
+      </div>
+      <button class="show-more-reviews">Show More Reviews</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-state">
+  <div class="spinner"></div>
+  <p>Loading movie details...</p>
+</div>
+
+<div *ngIf="notFound" class="not-found-state">
+  <div class="not-found-icon">🎬</div>
+  <h2>Movie Not Found</h2>
+  <p>Sorry, we couldn't find the movie you're looking for.</p>
+  <button class="back-btn" (click)="goBack()">← Back to List</button>
+</div>
+
+<div *ngIf="errorMessage && !loading" class="error-state">
+  <div class="error-icon">⚠️</div>
+  <h2>Oops! Something went wrong</h2>
+  <p>{{ errorMessage }}</p>
+  <button class="back-btn" (click)="goBack()">← Back to Safety</button>
+</div>

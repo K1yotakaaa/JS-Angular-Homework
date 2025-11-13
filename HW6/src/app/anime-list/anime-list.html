@@ -1,0 +1,49 @@
+<header [class.scrolled]="isScrolled" [class.hidden]="isHidden">
+  <a [routerLink]="['/']" class="logo">MovieLab</a>
+  <ul class="navigation">
+    <li><a [routerLink]="['/home']" routerLinkActive="active">Home</a></li>
+    <li><a [routerLink]="['/movie']" routerLinkActive="active">Movies</a></li>
+    <li><a [routerLink]="['/anime']" routerLinkActive="active">Anime</a></li>
+    <li><a [routerLink]="['/favorites']" routerLinkActive="active">Favorite</a></li>
+  </ul>
+
+  <div class="header-actions">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchInput"
+        (input)="onSearchInputChange()"
+      />
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+
+    <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']" class="auth-link">
+      <i class="fa-solid fa-user"></i> Login / Register
+    </a>
+
+    <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="auth-link">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+  </div>
+</header>
+
+<div class="main">
+  <div *ngIf="loading">Loading movies...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div *ngIf="!loading && filteredMovies.length === 0">No movies found.</div>
+
+  <div *ngFor="let m of filteredMovies">
+    <div class="movie-cards">
+      <div class="img-wrapper">
+        <img [src]="m.imgUrl" [alt]="m.name" [title]="m.name" />
+      </div>
+      <div class="name-info">
+        <span id="name"><a [routerLink]="['/details', m.id]">{{ m.name }}</a></span>
+      </div>
+      <div class="duration-info">
+        <span id="duration">Duration: {{ m.duration }} {{ m.check_duration }}</span>
+      </div>
+    </div>
+  </div>
+</div>

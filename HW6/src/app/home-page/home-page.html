@@ -1,0 +1,240 @@
+<header [class.scrolled]="isScrolled" [class.hidden]="isHidden">
+  <a [routerLink]="['/']" class="logo">MovieLab</a>
+  <ul class="navigation">
+    <li><a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
+    <li><a [routerLink]="['/movie']" routerLinkActive="active">Movies</a></li>
+    <li><a [routerLink]="['/anime']" routerLinkActive="active">Anime</a></li>
+    <li><a [routerLink]="['/favorites']" routerLinkActive="active">Favorite</a></li>
+  </ul>
+
+  <div class="header-actions">
+    <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']" class="auth-link">
+      <i class="fa-solid fa-user"></i>
+      Login / Register
+    </a>
+
+    <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="auth-link">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Logout
+    </a>
+  </div>
+</header>
+
+<div
+  class="banner"
+  [style.backgroundImage]="'url(' + activeMovie?.bgImg + ')'"
+>
+  <div class="my-carousel">
+    <div class="carousel">
+      <div
+        class="movie"
+        *ngFor="let movie of featuredMovies; let i = index"
+        [ngClass]="getClass(i)"
+        (click)="setActiveMovie(i)"
+      >
+        <img [src]="movie.imgUrl" [alt]="movie.name" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Movie Content -->
+  <div class="content-box" *ngIf="activeMovie">
+    <div class="movie-info active">
+      <img
+        class="movie-title"
+        [src]="activeMovie.logo"
+        [alt]="activeMovie.name"
+      />
+      <h4>
+        <span>{{ activeMovie.release }}</span>
+        <span><i>12+</i></span>
+        <span>{{ activeMovie.duration }} {{ activeMovie.check_duration }}</span>
+        <span>{{ getFirstGenre(activeMovie.genre) }}</span>
+      </h4>
+      <p>{{ activeMovie.description }}</p>
+      <div class="button">
+        <a [href]="activeMovie.link" target="_blank">
+          <i class="fa fa-play"></i> Watch
+        </a>
+        <a href="#"><i class="fa fa-plus"></i> Favorite</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="top-movie">
+  <div class="section-overlay"></div>
+
+  <div class="section-header">
+    <h2>🎬 Top Rated Movie</h2>
+    <p>Discover the movie that conquered audiences worldwide</p>
+  </div>
+
+  <div class="slider-carousel">
+    <div class="track">
+      <div class="set">
+        <ng-container *ngFor="let high of getHighestMovies()">
+          <div class="card">{{ high.name }}</div>
+          <span class="separator">•</span>
+        </ng-container>
+      </div>
+      <div class="set">
+        <ng-container *ngFor="let high of getHighestMovies()">
+          <div class="card">{{ high.name }}</div>
+          <span class="separator">•</span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-icons">
+    <img src="./images/icons/popcorn.png" class="icon popcorn" alt="popcorn" />
+    <img src="./images/icons/video-camera.png" class="icon camera" alt="camera" />
+    <img src="./images/icons/movie.png" class="icon clapper" alt="clapper" />
+    <img src="./images/icons/tickets.png" class="icon ticket" alt="ticket" />
+  </div>
+  
+  <div class="featured-card" *ngIf="getTopRatedMovie() as top">
+    <div class="top-movie-card" (click)="flipCard($event)">
+      <div class="card-inner">
+        <div class="card-front">
+          <img [src]="top.imgUrl" [alt]="top.name" />
+        </div>
+        <div class="card-back">
+          <h2>{{ top.name }}</h2>
+          <p>⭐ Rating: {{ top.rating }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="movies-list-section">
+  <div class="movie-list-section-header">
+    <h2>Top Movies for You</h2>
+    <p>Browse the latest and most popular movies handpicked for you</p>
+  </div>
+
+  <div class="category-section">
+    <div class="category-header">
+      <a href="#" class="category-title">
+        <i class="fa-solid fa-fire"></i> Trending Now
+      </a>
+
+      <div class="category-nav">
+        <button class="nav-btn" (click)="scrollCategory('trending', -1)">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn" (click)="scrollCategory('trending', 1)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="movies-scroll-wrapper">
+      <div class="movies-scroll-container" id="scroll-trending">
+        <div class="movies-scroll">
+          <div class="movie-card" *ngFor="let movie of trendingMovies">
+            <div class="card-image">
+              <img [src]="movie.imgUrl" [alt]="movie.name" />
+              
+              <div class="rating-badge">
+                <i class="fa-solid fa-star"></i>
+                {{ movie.rating }}
+              </div>
+
+              <div class="card-overlay">
+                <div class="card-actions">
+                  <button class="action-btn watch" (click)="openMovie(movie.link)">
+                    <i class="fa-solid fa-play"></i>
+                  </button>
+                </div>
+
+                <div class="movie-info">
+                  <h4>{{ movie.name }}</h4>
+                  <span class="movie-year">{{ movie.release }}</span>
+                  <div class="movie-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span>{{ movie.rating }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <h5>{{ movie.name }}</h5>
+              <p class="movie-genre">{{ movie.genre }}</p>
+            </div>
+          </div>
+
+          <div class="view-more-card">
+            <div class="view-more-content">
+              <i class="fa-solid fa-arrow-right"></i>
+              <span>View More</span>
+              <p>See all trending movies</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section">
+    <div class="category-header">
+      <a href="#" class="category-title">
+        <i class="fa-solid fa-clapperboard"></i> New Releases
+      </a>
+
+      <div class="category-nav">
+        <button class="nav-btn" (click)="scrollCategory('new', -1)">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn" (click)="scrollCategory('new', 1)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="movies-scroll-wrapper">
+      <div class="movies-scroll-container" id="scroll-new">
+        <div class="movies-scroll">
+          <div class="movie-card" *ngFor="let movie of newReleases">
+            <div class="card-image">
+              <img [src]="movie.imgUrl" [alt]="movie.name" />
+
+              <div class="card-overlay">
+                <div class="card-actions">
+                  <button class="action-btn watch" (click)="openMovie(movie.link)">
+                    <i class="fa-solid fa-play"></i>
+                  </button>
+                </div>
+
+                <div class="movie-info">
+                  <h4>{{ movie.name }}</h4>
+                  <span class="movie-year">{{ movie.release }}</span>
+                  <div class="movie-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span>{{ movie.rating }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <h5>{{ movie.name }}</h5>
+              <p class="movie-genre">{{ movie.genre }}</p>
+            </div>
+          </div>
+
+          <div class="view-more-card">
+            <div class="view-more-content">
+              <i class="fa-solid fa-arrow-right"></i>
+              <span>View More</span>
+              <p>See all new movies</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
