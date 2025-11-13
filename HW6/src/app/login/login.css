@@ -198,7 +198,7 @@
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
 }
 
-.fa-solid {
+.input-icon {
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -207,7 +207,7 @@
   transition: color 0.3s ease;
 }
 
-.form-input:focus + .fa-solid {
+.form-input:focus + .input-icon {
   color: white;
 }
 
